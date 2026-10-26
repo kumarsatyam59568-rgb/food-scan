@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FoodScan — Smart Food Scanner</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- QuaggaJS for barcode scanning -->
+    <script src="https://cdn.jsdelivr.net/npm/@ericblade/quagga2/dist/quagga.min.js"></script>
+</head>
+<body>
+    <!-- ===== NAVBAR ===== -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="#" class="logo">
+                <span class="logo-icon">🍎</span>
+                <span class="logo-text">Food<span class="highlight">Scan</span></span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="#home" class="active">Home</a></li>
+                <li><a href="#scanner">Scanner</a></li>
+                <li><a href="#history">History</a></li>
+                <li><a href="#about">About</a></li>
+            </ul>
+            <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle menu">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- ===== HERO SECTION ===== -->
+    <section id="home" class="hero">
+        <div class="hero-bg-shapes">
+            <div class="shape shape-1"></div>
+            <div class="shape shape-2"></div>
+            <div class="shape shape-3"></div>
+        </div>
+        <div class="hero-container">
+            <div class="hero-content">
+                <span class="hero-badge">🔬 AI-Powered Food Analysis</span>
+                <h1>Know What You're <span class="gradient-text">Eating</span></h1>
+                <p class="hero-subtitle">
+                    Scan any food barcode instantly to get detailed nutritional information,
+                    ingredients, allergens, and health scores — all in one place.
+                </p>
+                <div class="hero-cta">
+                    <a href="#scanner" class="btn btn-primary">
+                        <span class="btn-icon">📷</span> Start Scanning
+                    </a>
+                    <a href="#about" class="btn btn-secondary">Learn More</a>
+                </div>
+                <div class="hero-stats">
+                    <div class="stat">
+                        <span class="stat-value">2M+</span>
+                        <span class="stat-label">Products</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-value">150+</span>
+                        <span class="stat-label">Countries</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-value">100%</span>
+                        <span class="stat-label">Free</span>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <div class="phone-mockup">
+                    <div class="phone-screen">
+                        <div class="scan-animation">
+                            <div class="scan-line"></div>
+                            <div class="barcode-visual">
+                                <div class="bar"></div><div class="bar thin"></div><div class="bar"></div>
+                                <div class="bar thin"></div><div class="bar thick"></div><div class="bar thin"></div>
+                                <div class="bar"></div><div class="bar thick"></div><div class="bar thin"></div>
+                                <div class="bar"></div><div class="bar thin"></div><div class="bar thick"></div>
+                            </div>
+                        </div>
+                        <div class="mini-result">
+                            <div class="mini-product">
+                                <span class="mini-emoji">🥣</span>
+                                <div>
+                                    <div class="mini-name">Organic Granola</div>
+                                    <div class="mini-score score-a">Nutri-Score: A</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== FEATURES ===== -->
+    <section class="features">
+        <div class="container">
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h3>Instant Scan</h3>
+                    <p>Scan barcodes in real-time using your camera or enter them manually.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h3>Full Nutrition</h3>
+                    <p>Calories, proteins, fats, carbs, vitamins — complete breakdown.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">⚠️</div>
+                    <h3>Allergen Alerts</h3>
+                    <p>Instantly see allergens like gluten, dairy, nuts, and more.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📜</div>
+                    <h3>Scan History</h3>
+                    <p>Keep track of all your scanned products for easy reference.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== SCANNER SECTION ===== -->
+    <section id="scanner" class="scanner-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Scan a <span class="gradient-text">Product</span></h2>
+                <p>Use your camera to scan a barcode or type it manually</p>
+            </div>
+
+            <div class="scanner-wrapper">
+                <!-- Scanner Input Area -->
+                <div class="scanner-input-area">
+                    <div class="scan-tabs">
+                        <button class="scan-tab active" data-tab="camera">
+                            📷 Camera Scan
+                        </button>
+                        <button class="scan-tab" data-tab="manual">
+                            ⌨️ Manual Entry
+                        </button>
+                    </div>
+
+                    <!-- Camera Scanner -->
+                    <div class="tab-content active" id="camera-tab">
+                        <div class="camera-container" id="cameraContainer">
+                            <div id="scanner-viewport"></div>
+                            <div class="camera-overlay">
+                                <div class="scan-frame">
+                                    <div class="corner top-left"></div>
+                                    <div class="corner top-right"></div>
+                                    <div class="corner bottom-left"></div>
+                                    <div class="corner bottom-right"></div>
+                                    <div class="scan-beam"></div>
+                                </div>
+                                <p class="camera-hint">Position barcode within the frame</p>
+                            </div>
+                            <div class="camera-placeholder" id="cameraPlaceholder">
+                                <div class="placeholder-icon">📷</div>
+                                <h3>Camera Scanner</h3>
+                                <p>Click below to activate your camera and scan a barcode</p>
+                                <button class="btn btn-primary" id="startCameraBtn">
+                                    Start Camera
+                                </button>
+                            </div>
+                        </div>
+                        <button class="btn btn-outline" id="stopCameraBtn" style="display:none;">
+                            ⏹ Stop Camera
+                        </button>
+                    </div>
+
+                    <!-- Manual Entry -->
+                    <div class="tab-content" id="manual-tab">
+                        <div class="manual-input-group">
+                            <div class="input-wrapper">
+                                <span class="input-icon">🔢</span>
+                                <input type="text" id="barcodeInput" placeholder="Enter barcode number (e.g., 3017620422003)" maxlength="20">
+                            </div>
+                            <button class="btn btn-primary" id="searchBtn">
+                                Search
+                            </button>
+                        </div>
+                        <div class="sample-barcodes">
+                            <p>Try these samples:</p>
+                            <div class="sample-list">
+                                <button class="sample-btn" data-barcode="3017620422003">Nutella</button>
+                                <button class="sample-btn" data-barcode="5449000000996">Coca-Cola</button>
+                                <button class="sample-btn" data-barcode="7622210449283">Oreo</button>
+                                <button class="sample-btn" data-barcode="3175680011480">Evian Water</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Results Area -->
+                <div class="results-area" id="resultsArea">
+                    <div class="results-placeholder" id="resultsPlaceholder">
+                        <div class="placeholder-visual">
+                            <span>🔍</span>
+                        </div>
+                        <h3>No Product Scanned</h3>
+                        <p>Scan or search for a product to see its nutritional information here</p>
+                    </div>
+
+                    <!-- Loading State -->
+                    <div class="loading-state hidden" id="loadingState">
+                        <div class="loader">
+                            <div class="loader-ring"></div>
+                            <span class="loader-icon">🍽️</span>
+                        </div>
+                        <p>Fetching product information...</p>
+                    </div>
+
+                    <!-- Error State -->
+                    <div class="error-state hidden" id="errorState">
+                        <span class="error-icon">😕</span>
+                        <h3>Product Not Found</h3>
+                        <p id="errorMessage">We couldn't find this product. Try a different barcode.</p>
+                        <button class="btn btn-outline" id="retryBtn">Try Again</button>
+                    </div>
+
+                    <!-- Product Result -->
+                    <div class="product-result hidden" id="productResult">
+                        <!-- Filled dynamically by JS -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== HISTORY SECTION ===== -->
+    <section id="history" class="history-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Scan <span class="gradient-text">History</span></h2>
+                <p>Your recently scanned products</p>
+            </div>
+            <div class="history-controls">
+                <button class="btn btn-outline btn-sm" id="clearHistoryBtn">🗑️ Clear History</button>
+            </div>
+            <div class="history-grid" id="historyGrid">
+                <div class="history-empty" id="historyEmpty">
+                    <span>📋</span>
+                    <p>No scan history yet. Start scanning products!</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== ABOUT SECTION ===== -->
+    <section id="about" class="about-section">
+        <div class="container">
+            <div class="about-grid">
+                <div class="about-content">
+                    <h2>About <span class="gradient-text">FoodScan</span></h2>
+                    <p>
+                        FoodScan is a free, open-source food barcode scanner that helps you make
+                        informed decisions about what you eat. Powered by the
+                        <strong>Open Food Facts</strong> database — the largest open food products database
+                        in the world.
+                    </p>
+                    <div class="about-features">
+                        <div class="about-feature">
+                            <span>✅</span>
+                            <div>
+                                <strong>Open Data</strong>
+                                <p>Built on Open Food Facts, a collaborative project with contributors worldwide.</p>
+                            </div>
+                        </div>
+                        <div class="about-feature">
+                            <span>✅</span>
+                            <div>
+                                <strong>Privacy First</strong>
+                                <p>No data collection. Everything stays on your device.</p>
+                            </div>
+                        </div>
+                        <div class="about-feature">
+                            <span>✅</span>
+                            <div>
+                                <strong>Always Free</strong>
+                                <p>No subscriptions, no ads, no hidden costs — just useful food data.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="about-visual">
+                    <div class="about-card">
+                        <div class="about-card-header">How It Works</div>
+                        <div class="step">
+                            <div class="step-num">1</div>
+                            <div>
+                                <strong>Scan or Enter</strong>
+                                <p>Use your camera or type a barcode number</p>
+                            </div>
+                        </div>
+                        <div class="step">
+                            <div class="step-num">2</div>
+                            <div>
+                                <strong>Get Results</strong>
+                                <p>Instantly see nutrition facts, ingredients & scores</p>
+                            </div>
+                        </div>
+                        <div class="step">
+                            <div class="step-num">3</div>
+                            <div>
+                                <strong>Make Better Choices</strong>
+                                <p>Compare products and choose healthier options</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <span class="logo-icon">🍎</span>
+                    <span class="logo-text">Food<span class="highlight">Scan</span></span>
+                    <p>Making food information accessible to everyone.</p>
+                </div>
+                <div class="footer-links">
+                    <a href="#home">Home</a>
+                    <a href="#scanner">Scanner</a>
+                    <a href="#history">History</a>
+                    <a href="#about">About</a>
+                </div>
+                <div class="footer-powered">
+                    Powered by <a href="https://world.openfoodfacts.org/" target="_blank">Open Food Facts</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 FoodScan. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>
+
